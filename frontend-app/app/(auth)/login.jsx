@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuthStore } from "../../store/authStore";
@@ -36,85 +39,93 @@ export default function Login() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        padding: 24,
-        backgroundColor: "#fff",
-      }}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: "#fff" }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={{ fontSize: 28, fontWeight: "bold", marginBottom: 8 }}>
-        Welcome back
-      </Text>
-      <Text style={{ fontSize: 16, color: "#666", marginBottom: 32 }}>
-        Sign in to your account
-      </Text>
-
-      <Text style={{ fontSize: 14, color: "#333", marginBottom: 6 }}>
-        Email
-      </Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="you@example.com"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        style={{
-          borderWidth: 1,
-          borderColor: "#ddd",
-          borderRadius: 8,
-          padding: 12,
-          fontSize: 16,
-          marginBottom: 16,
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          padding: 24,
         }}
-      />
-
-      <Text style={{ fontSize: 14, color: "#333", marginBottom: 6 }}>
-        Password
-      </Text>
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        placeholder="••••••••"
-        secureTextEntry
-        style={{
-          borderWidth: 1,
-          borderColor: "#ddd",
-          borderRadius: 8,
-          padding: 12,
-          fontSize: 16,
-          marginBottom: 24,
-        }}
-      />
-
-      <TouchableOpacity
-        onPress={handleLogin}
-        disabled={loading}
-        style={{
-          backgroundColor: "#4F46E5",
-          borderRadius: 8,
-          padding: 16,
-          alignItems: "center",
-        }}
+        keyboardShouldPersistTaps="handled"
       >
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
-            Sign in
-          </Text>
-        )}
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => router.push("/(auth)/register")}
-        style={{ marginTop: 16, alignItems: "center" }}
-      >
-        <Text style={{ color: "#4F46E5", fontSize: 14 }}>
-          Don't have an account? Register
+        <Text style={{ fontSize: 28, fontWeight: "bold", marginBottom: 8 }}>
+          Welcome back
         </Text>
-      </TouchableOpacity>
-    </View>
+        <Text style={{ fontSize: 16, color: "#666", marginBottom: 32 }}>
+          Sign in to your account
+        </Text>
+
+        <Text style={{ fontSize: 14, color: "#333", marginBottom: 6 }}>
+          Email
+        </Text>
+        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          placeholder="you@example.com"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          returnKeyType="next"
+          style={{
+            borderWidth: 1,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            fontSize: 16,
+            marginBottom: 16,
+          }}
+        />
+
+        <Text style={{ fontSize: 14, color: "#333", marginBottom: 6 }}>
+          Password
+        </Text>
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          placeholder="••••••••"
+          secureTextEntry
+          returnKeyType="done"
+          onSubmitEditing={handleLogin}
+          style={{
+            borderWidth: 1,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            fontSize: 16,
+            marginBottom: 24,
+          }}
+        />
+
+        <TouchableOpacity
+          onPress={handleLogin}
+          disabled={loading}
+          style={{
+            backgroundColor: "#4F46E5",
+            borderRadius: 8,
+            padding: 16,
+            alignItems: "center",
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
+              Sign in
+            </Text>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => router.push("/(auth)/register")}
+          style={{ marginTop: 16, alignItems: "center" }}
+        >
+          <Text style={{ color: "#4F46E5", fontSize: 14 }}>
+            Don't have an account? Register
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

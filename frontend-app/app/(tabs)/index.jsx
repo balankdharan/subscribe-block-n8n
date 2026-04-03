@@ -15,10 +15,11 @@ import { useAuthStore } from "../../store/authStore";
 export default function Home() {
   const [blocks, setBlocks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user, logout } = useAuthStore();
+  const { user, logout, token } = useAuthStore();
   const router = useRouter();
 
   const fetchSubscribedBlocks = async () => {
+    if (!token) return;
     try {
       setLoading(true);
       const { data } = await api.get("/blocks/subscribed");
@@ -32,8 +33,8 @@ export default function Home() {
 
   useFocusEffect(
     useCallback(() => {
-      fetchSubscribedBlocks();
-    }, []),
+      if (token) fetchSubscribedBlocks();
+    }, [token]),
   );
 
   const handleLogout = async () => {
