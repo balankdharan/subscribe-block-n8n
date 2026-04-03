@@ -4,6 +4,7 @@ const {
   createBlock,
   getPublicBlocks,
   getMyBlocks,
+  getSubscribedBlocks,
   getBlockById,
   updateBlock,
   deleteBlock,
@@ -15,6 +16,7 @@ const { protect } = require("../middleware/auth");
 
 router.get("/", getPublicBlocks);
 router.get("/mine", protect, getMyBlocks);
+router.get("/subscribed", protect, getSubscribedBlocks);
 router.get("/:id", protect, getBlockById);
 router.post("/", protect, blockValidator, createBlock);
 router.patch("/:id", protect, updateBlock);

@@ -170,10 +170,20 @@ const unsubscribeFromBlock = async (req, res, next) => {
   }
 };
 
+const getSubscribedBlocks = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).populate("subscribedBlocks");
+    res.json(user.subscribedBlocks);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createBlock,
   getPublicBlocks,
   getMyBlocks,
+  getSubscribedBlocks,
   getBlockById,
   updateBlock,
   deleteBlock,
