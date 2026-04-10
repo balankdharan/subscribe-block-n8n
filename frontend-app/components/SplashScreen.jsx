@@ -1,99 +1,93 @@
 import { useEffect, useRef } from "react";
-import { View, Text, Animated, Easing } from "react-native";
+import { View, Text, Animated, Easing, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
 
 export default function SplashScreen({ onFinish }) {
-  const scaleAnim = useRef(new Animated.Value(0.3)).current;
-  const opacityAnim = useRef(new Animated.Value(0)).current;
-  const taglineAnim = useRef(new Animated.Value(0)).current;
+  const blockScale = useRef(new Animated.Value(0.05)).current;
+  const blockOpacity = useRef(new Animated.Value(0)).current;
+  const subtitleOpacity = useRef(new Animated.Value(0)).current;
+  const subtitleY = useRef(new Animated.Value(20)).current;
+  const exitOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.sequence([
+      // "Block" scales up smoothly like iPhone hello
       Animated.parallel([
-        Animated.timing(scaleAnim, {
+        Animated.timing(blockOpacity, {
           toValue: 1,
-          duration: 700,
-          easing: Easing.out(Easing.back(1.5)),
+          duration: 300,
           useNativeDriver: true,
         }),
-        Animated.timing(opacityAnim, {
+        Animated.timing(blockScale, {
           toValue: 1,
-          duration: 600,
+          duration: 1000,
+          easing: Easing.out(Easing.bezier(0.16, 1, 0.3, 1)),
           useNativeDriver: true,
         }),
       ]),
-      Animated.timing(taglineAnim, {
-        toValue: 1,
-        duration: 500,
+      // Subtitle slides up and fades in
+      Animated.parallel([
+        Animated.timing(subtitleOpacity, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(subtitleY, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.delay(900),
+      // Whole screen fades out
+      Animated.timing(exitOpacity, {
+        toValue: 0,
+        duration: 600,
+        easing: Easing.in(Easing.quad),
         useNativeDriver: true,
       }),
-      Animated.delay(800),
-      Animated.parallel([
-        Animated.timing(opacityAnim, {
-          toValue: 0,
-          duration: 400,
-          useNativeDriver: true,
-        }),
-        Animated.timing(taglineAnim, {
-          toValue: 0,
-          duration: 400,
-          useNativeDriver: true,
-        }),
-      ]),
     ]).start(() => onFinish());
   }, []);
 
   return (
-    <View
+    <Animated.View
       style={{
         flex: 1,
-        backgroundColor: "#4F46E5",
+        backgroundColor: "#000000",
         justifyContent: "center",
         alignItems: "center",
+        opacity: exitOpacity,
       }}
     >
-      <Animated.View
-        style={{
-          opacity: opacityAnim,
-          transform: [{ scale: scaleAnim }],
-          alignItems: "center",
-        }}
-      >
-        <View
-          style={{
-            width: 100,
-            height: 100,
-            borderRadius: 28,
-            backgroundColor: "#fff",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 20,
-          }}
-        >
-          <Text style={{ fontSize: 48 }}>📚</Text>
-        </View>
-        <Text
-          style={{
-            fontSize: 32,
-            fontWeight: "bold",
-            color: "#fff",
-            letterSpacing: 1,
-          }}
-        >
-          RemindBlock
-        </Text>
-      </Animated.View>
-
+      {/* Main "Block" text — iPhone hello style */}
       <Animated.Text
         style={{
-          opacity: taglineAnim,
-          fontSize: 16,
-          color: "rgba(255,255,255,0.8)",
-          marginTop: 12,
-          letterSpacing: 0.5,
+          fontSize: width * 0.18,
+          fontWeight: "800",
+          color: "#14ff57",
+          letterSpacing: -2,
+          opacity: blockOpacity,
+          transform: [{ scale: blockScale }],
         }}
       >
-        Learn something new every day
+        Block
       </Animated.Text>
-    </View>
+
+      {/* Subtitle */}
+      <Animated.Text
+        style={{
+          fontSize: 15,
+          color: "#769a75",
+          letterSpacing: 1.5,
+          marginTop: 12,
+          opacity: subtitleOpacity,
+          transform: [{ translateY: subtitleY }],
+        }}
+      >
+        your daily reminder
+      </Animated.Text>
+    </Animated.View>
   );
 }

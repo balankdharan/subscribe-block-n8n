@@ -48,9 +48,25 @@ export default function Register() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: "#fff" }}
+      style={{ flex: 1, backgroundColor: "#000" }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      {/* Fixed logo at top center */}
+      <View style={{ alignItems: "center", paddingTop: 70 }}>
+        <Text
+          style={{
+            fontSize: 28,
+            fontWeight: "800",
+            color: "#00CC44",
+            letterSpacing: 2,
+            textTransform: "uppercase",
+            marginTop: 20,
+          }}
+        >
+          Block
+        </Text>
+      </View>
+
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -59,85 +75,145 @@ export default function Register() {
         }}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={{ fontSize: 28, fontWeight: "bold", marginBottom: 8 }}>
+        {/* Heading */}
+        <Text
+          style={{
+            fontSize: 42,
+            fontWeight: "800",
+            color: "#eefded",
+            letterSpacing: -1,
+            marginBottom: 8,
+          }}
+        >
           Create account
         </Text>
-        <Text style={{ fontSize: 16, color: "#666", marginBottom: 32 }}>
+        <Text
+          style={{
+            fontSize: 15,
+            color: "#4a7a5a",
+            letterSpacing: 1,
+            marginBottom: 48,
+          }}
+        >
           Start your daily learning journey
         </Text>
 
-        <Text style={{ fontSize: 14, color: "#333", marginBottom: 6 }}>
+        {/* Name */}
+        <Text
+          style={{
+            fontSize: 12,
+            color: "#4a7a5a",
+            letterSpacing: 1.5,
+            textTransform: "uppercase",
+            marginBottom: 8,
+          }}
+        >
           Name
         </Text>
         <TextInput
           value={name}
           onChangeText={setName}
           placeholder="Your name"
+          placeholderTextColor="#2a3d2a"
           returnKeyType="next"
           style={{
             borderWidth: 1,
-            borderColor: "#ddd",
-            borderRadius: 8,
-            padding: 12,
+            borderColor: "#1e2e1e",
+            borderRadius: 12,
+            padding: 16,
             fontSize: 16,
-            marginBottom: 16,
+            color: "#eefded",
+            backgroundColor: "#0d150d",
+            marginBottom: 24,
           }}
         />
 
-        <Text style={{ fontSize: 14, color: "#333", marginBottom: 6 }}>
+        {/* Email */}
+        <Text
+          style={{
+            fontSize: 12,
+            color: "#4a7a5a",
+            letterSpacing: 1.5,
+            textTransform: "uppercase",
+            marginBottom: 8,
+          }}
+        >
           Email
         </Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           placeholder="you@example.com"
+          placeholderTextColor="#2a3d2a"
           keyboardType="email-address"
           autoCapitalize="none"
           returnKeyType="next"
           style={{
             borderWidth: 1,
-            borderColor: "#ddd",
-            borderRadius: 8,
-            padding: 12,
+            borderColor: "#1e2e1e",
+            borderRadius: 12,
+            padding: 16,
             fontSize: 16,
-            marginBottom: 16,
+            color: "#eefded",
+            backgroundColor: "#0d150d",
+            marginBottom: 24,
           }}
         />
 
-        <Text style={{ fontSize: 14, color: "#333", marginBottom: 6 }}>
+        {/* Password */}
+        <Text
+          style={{
+            fontSize: 12,
+            color: "#4a7a5a",
+            letterSpacing: 1.5,
+            textTransform: "uppercase",
+            marginBottom: 8,
+          }}
+        >
           Password
         </Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
           placeholder="••••••••"
+          placeholderTextColor="#2a3d2a"
           secureTextEntry
           returnKeyType="done"
           onSubmitEditing={handleRegister}
           style={{
             borderWidth: 1,
-            borderColor: "#ddd",
-            borderRadius: 8,
-            padding: 12,
+            borderColor: "#1e2e1e",
+            borderRadius: 12,
+            padding: 16,
             fontSize: 16,
-            marginBottom: 24,
+            color: "#eefded",
+            backgroundColor: "#0d150d",
+            marginBottom: 40,
           }}
         />
 
+        {/* Button */}
         <TouchableOpacity
           onPress={handleRegister}
           disabled={loading}
           style={{
-            backgroundColor: "#4F46E5",
-            borderRadius: 8,
-            padding: 16,
+            backgroundColor: "#00CC44",
+            borderRadius: 12,
+            padding: 18,
             alignItems: "center",
           }}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#000" />
           ) : (
-            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
+            <Text
+              style={{
+                color: "#000",
+                fontSize: 16,
+                fontWeight: "800",
+                letterSpacing: 0.5,
+              }}
+            >
               Create account
             </Text>
           )}
@@ -145,10 +221,11 @@ export default function Register() {
 
         <TouchableOpacity
           onPress={() => router.push("/(auth)/login")}
-          style={{ marginTop: 16, alignItems: "center" }}
+          style={{ marginTop: 24, alignItems: "center" }}
         >
-          <Text style={{ color: "#4F46E5", fontSize: 14 }}>
-            Already have an account? Sign in
+          <Text style={{ color: "#4a7a5a", fontSize: 14, letterSpacing: 0.5 }}>
+            Already have an account?{" "}
+            <Text style={{ color: "#00CC44", fontWeight: "600" }}>Sign in</Text>
           </Text>
         </TouchableOpacity>
       </ScrollView>
